@@ -1,0 +1,93 @@
+
+Intro
+
+PalmKey is an RFC1938 compliant One-Time Password generator.
+
+One-Time passwords are used for secure authentication across an insecure
+network. Systems that use OTPs, issue a challenge to the user when the
+connection is first established. The user inputs this challenge plus their
+secret password, and a one-time password is computed. The user then sends
+this response to the system. The user's password is never directly
+transmitted over the network. Once a OTP is accepted, it will never be
+accepted again, making it safe to transmit over the network in the clear.
+
+
+Installation
+
+Sync the .prc and .pdb files onto your palm. If you want to save memory, the
+.pdb file doesn't need to be installed. If you don't install the .pdb file,
+english responses will not be available. If the system(s) you log into
+support using hexadecimal encoded responses, leaving the dictionary out will
+save you ~8K of memory.
+
+If you are upgrading from a previous version of PalmKey, delete the old
+version first. With the current version of PalmKey, the App ID has changed,
+and if you don't delete the old copy first, you will end up with two
+different versions installed. This won't cause problems, but will consume
+extra memory.
+
+
+Usage
+
+To use, choose the appropriate algorithm for key computation, if unsure
+about which algorithm to use, chose otp-md4. Afterwards input the challenge
+into the count and seed fields. Enter your passphrase into the passphrase
+field and choose the format of the response with the Eng/Hex buttons, if
+unsure which one to use, choose Eng. Tap compute and the response appears
+under the response label. Depending on the algorithm and sequence number, it
+may take a couple seconds to compute the response. At the extreme with a
+count of 9999 it may take upto a minute to compute the response. When
+exiting PalmKey, it will save the current algorithm, the current response
+format, and it will also save the values of the count and seed fields. Upon
+next startup, it restores these values.
+
+The clear button is dual-function. If the password field contains input of
+any kind, tapping clear will clear only the password field. If the password
+field is empty, tapping the clear button will clear the count, seed, and
+response fields.
+
+Fields
+
+Algorithm:
+    Controls which hashing algorithm is used to compute the OTP response.
+Choices are otp-md4, otp-md5, and otp-sha1. otp-md4 is the most commonly
+used method.
+
+Count:
+    Controls the number of iterations through the hashing algorithm. The
+higher the count, the longer it takes to compute the response. Maximum value
+for the field is 9999 and it takes between 10-30 seconds to compute a
+response with that value.
+
+Seed:
+    This is the seed provided by the server as part of the OTP challenge.
+Maximum length of the seed is 16 characters and length does not affect
+computation time. Valid characters alphanumeric only.
+
+Passphrase:
+    Input your passphrase for the computation of the response in this field.
+Maximum length is 63 characters, minimum length is 6 characters.
+
+Response:
+    Controls the format the response is shown in. Choices are English and
+Hex. In English the response will be shown as six English words that are
+between one and hour characters long. In hex, the response will be shown in
+four groups of four hexadecimal characters. 
+
+
+Support
+    http://palmkey.sourceforge.net/
+
+
+Credits
+
+Portions of PalmKey are based on the S/KEY(tm) reference implementation
+written by Phil Karn, Neil M. Haller and John S. Walden, and modified by
+Wietse Venema. S/KEY is a trademark of Bellcore. The MD4 and MD5 code was
+written by Ron Rivest. MD4 and MD5 Message-Digest Algorithms are by RSA Data
+Security, Inc. The SHA-1 code is based on the implementation written by Jim
+Gillogly. SHA-1 is the Secure Hash Algorithm by the National Institute of
+Standards and Technology (NIST).
+
+
+$Id: README 54 2007-01-01 06:00:48Z jkf $

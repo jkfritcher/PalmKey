@@ -1,0 +1,10 @@
+
+Before compiling PalmKey, make sure prc-tools-2.0 is installed.
+
+To compile PalmKey, follow the instructions below.
+
+1. cd into directory with the source code.
+2. type make.
+3. Follow the instructions in README for installation and usage.
+
+$Id: COMPILING 50 2001-01-12 07:20:35Z jkf $

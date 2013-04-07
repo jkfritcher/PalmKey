@@ -1,0 +1,135 @@
+//-
+// Copyright (c) 2000-2007 Jason K. Fritcher <jkf@wolfnet.org>
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+// OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+// SUCH DAMAGE.
+//
+//	$Id: palmkey.rcp.in 56 2007-01-01 21:16:48Z jkf $
+//
+
+#include "palmkey_rcp.h"
+
+APPLICATION ID AppID "Pkey"
+
+VERSION ID VersionID "__VERSION__"
+
+APPLICATIONICONNAME ID 1000 "PalmKey"
+
+ICON "icon-b.bmp"
+SMALLICON "icon-s.bmp"
+
+FORM ID MainView AT (0 0 160 160)
+MENUID MainViewMenu
+BEGIN
+	TITLE "PalmKey"
+
+	LABEL "Algorithm:" ID HashLabel AT (16 17) USABLE
+	POPUPTRIGGER "" ID HashListTrigger AT (60 PrevTop AUTO AUTO) LEFTANCHOR
+	LIST "otp-md4" "otp-md5" "otp-sha1" ID HashList AT (PrevLeft PrevTop AUTO AUTO) NONUSABLE VISIBLEITEMS 3
+	POPUPLIST ID HashListTrigger HashList
+
+	LABEL "Count:" ID CountLabel AT (32 30) USABLE
+	FIELD ID CountField at (60 PrevTop 22 11) USABLE NUMERIC EDITABLE UNDERLINED SINGLELINE MAXCHARS 4
+
+	LABEL "Seed:" ID SeedLabel AT (36 43) USABLE
+	FIELD ID SeedField AT (60 PrevTop 90 11) USABLE EDITABLE UNDERLINED SINGLELINE MAXCHARS 16
+
+	LABEL "Passphrase:" ID PassphraseLabel AT (10 56) USABLE
+	FIELD ID PassphraseField AT (60 PrevTop 90 11) USABLE EDITABLE UNDERLINED SINGLELINE MAXCHARS 64
+
+	BUTTON "Compute" ID ComputeButton AT (30 72 AUTO AUTO) USABLE FRAME
+	BUTTON "Clear" ID ClearButton AT (95 PrevTop AUTO AUTO) USABLE FRAME
+
+	LABEL "Response:" ID ResponseLabel AT (0 127) USABLE
+	PUSHBUTTON "Eng" ID ResponseEngFormat AT (107 123 25 AUTO) USABLE GROUP 1
+	PUSHBUTTON "Hex" ID ResponseHexFormat AT (PrevLeft+26 PrevTop 25 AUTO) USABLE GROUP 1
+	FIELD ID ResponseField AT (0 138 160 11) USABLE NONEDITABLE SINGLELINE MAXCHARS 29
+
+	GRAFFITISTATEINDICATOR AT (150 150)
+END
+
+MENU ID MainViewMenu
+BEGIN
+	PULLDOWN "Edit"
+	BEGIN
+		MENUITEM "Undo"     ID 10000 "U"
+		MENUITEM "Cut"      ID 10001 "X"
+		MENUITEM "Copy"     ID 10002 "C"
+		MENUITEM "Paste"    ID 10003 "P"
+		MENUITEM SEPARATOR
+		MENUITEM "Keyboard" ID 10006 "K"
+	END
+
+	PULLDOWN "Options"
+	BEGIN
+		MENUITEM "About PalmKey..." ID AboutMenuID
+	END
+END
+
+FORM ID AboutView AT (2 2 156 156)
+MODAL
+BEGIN
+	TITLE "About PalmKey"
+
+	LABEL "PalmKey v__VERSION__" AUTOID AT (CENTER 25) FONT 1
+	LABEL "Copyright 2000-2007 by Jason Fritcher" AUTOID AT (CENTER PREVBOTTOM)
+	LABEL "All Rights Reserved." AUTOID AT (CENTER PREVBOTTOM)
+	LABEL "http://palmkey.sourceforge.net/" AUTOID AT (CENTER PREVBOTTOM+PREVHEIGHT)
+
+	BUTTON "Ok" AUTOID AT (CENTER 139 30 12)
+END
+
+ALERT ID InputAlert
+ERROR
+BEGIN
+	TITLE "Invalid Input"
+	MESSAGE "^1"
+	BUTTONS "Ok"
+END
+
+ALERT ID FatalAlert
+ERROR
+BEGIN
+	TITLE "Fatal Error"
+	MESSAGE "^1\n\nPalmKey is now quiting."
+	BUTTONS "Ok"
+END
+
+ALERT ID RomAlert
+ERROR
+BEGIN
+	TITLE "Incompatible ROM Version"
+	MESSAGE "Your version of PalmOS is too old.\n\nA minimum version of 2.0 is needed to execute this application."
+	BUTTON "Ok"
+END
+
+STRING ID NullPtrMsg "NULL ptr returned."
+
+STRING ID NullHandleMsg "NULL handle returned."
+
+STRING ID NegativeCount "Count is negative.\n\nValid count range is 0-9999."
+STRING ID BlankCount "Count field is blank.\n\nPlease input a count and try again."
+STRING ID InvalidSeed "Seed field contains invalid characters.\n\nAllowed characters are a-z, A-Z, and 0-9."
+STRING ID BlankSeed "Seed field is blank.\n\nPlease input a seed and try again."
+STRING ID LargeSeed "Seed is too large.\n\nMaximum seed length is 16 characters."
+STRING ID ShortPassphrase1 "Passphrase field is blank or too short.\n\nMinimum passphrase length is 10 characters."
+STRING ID ShortPassphrase2 "Passphrase field is blank or too short.\n\nMinimum passphrase length is 6 characters."
